@@ -395,9 +395,22 @@
 				transition: opacity 160ms ease;
 			}
 
+			.button::after,
+			.tilt-card::after {
+				position: absolute;
+				inset: 0;
+				z-index: 2;
+				border: 1px solid var(--line-bright);
+				border-radius: inherit;
+				box-shadow: 0 0 34px rgba(45, 226, 160, 0.12);
+				content: "";
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 180ms ease;
+			}
+
 			.button:hover,
 			.tilt-card:hover {
-				border-color: var(--line-bright);
 				box-shadow: 0 18px 56px rgba(45, 226, 160, 0.13), 0 0 0 1px rgba(45, 226, 160, 0.08);
 			}
 
@@ -417,7 +430,9 @@
 			}
 
 			.button:hover::before,
-			.tilt-card:hover::before {
+			.tilt-card:hover::before,
+			.button:hover::after,
+			.tilt-card:hover::after {
 				opacity: 1;
 			}
 
@@ -1033,7 +1048,6 @@
 
 			.reveal {
 				opacity: 0;
-				transform: translateY(18px);
 				animation: reveal 680ms ease forwards;
 			}
 
@@ -1048,7 +1062,6 @@
 			@keyframes reveal {
 				to {
 					opacity: 1;
-					transform: translateY(0);
 				}
 			}
 
@@ -1243,7 +1256,7 @@
 					<article class="project-card tilt-card">
 						<div class="project-image">
 							<video autoplay muted loop playsinline poster="images/pic03.jpg">
-								<source src="videos/td-game.mp4" type="video/mp4" />
+								<source src="videos/tower-defense-framework.mp4" type="video/mp4" />
 							</video>
 						</div>
 						<div class="project-body">
@@ -1262,7 +1275,7 @@
 					<article class="project-card tilt-card">
 						<div class="project-image">
 							<video autoplay muted loop playsinline poster="images/pic04.jpg">
-								<source src="videos/incremental-game.mp4" type="video/mp4" />
+								<source src="videos/incremental-system.mp4" type="video/mp4" />
 							</video>
 						</div>
 						<div class="project-body">
@@ -1451,7 +1464,7 @@
 				</ul>
 				<ul class="social-links">
 					<li><button class="copy-icon-button" type="button" data-copy="bikeis" aria-label="Copy Discord username"><i class="fab fa-discord" aria-hidden="true"></i></button></li>
-					<li><a href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+					<li><a href="https://github.com/Bikeis" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li>
 				</ul>
 				<p>&copy; 2026 BIKE. Roblox Scripter For Hire.</p>
 			</div>

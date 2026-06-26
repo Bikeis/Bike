@@ -399,7 +399,7 @@
 				transition: opacity 160ms ease;
 			}
 
-			.button::after,
+			.button:not(.copy-icon-button)::after,
 			.tilt-card::after {
 				position: absolute;
 				inset: 0;
@@ -435,7 +435,7 @@
 
 			.button:hover::before,
 			.tilt-card:hover::before,
-			.button:hover::after,
+			.button:not(.copy-icon-button):hover::after,
 			.tilt-card:hover::after {
 				opacity: 1;
 			}
@@ -467,7 +467,7 @@
 
 			.term-card:hover,
 			.service-card:hover {
-				transform: perspective(900px) rotateX(var(--rx, 5deg)) rotateY(var(--ry, -5deg));
+				transform: perspective(900px) rotateX(var(--rx, 2deg)) rotateY(var(--ry, -2deg));
 			}
 
 			.stats {
@@ -1371,20 +1371,20 @@
 				</div>
 
 					<div class="terms-grid">
-					<article class="term-card tilt-card reveal" data-tilt-strength="20">
+					<article class="term-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-tasks" aria-hidden="true"></i></span>
 						<h3>PAYMENT TYPE</h3>
 						<strong>Per Task</strong>
 						<p>Each feature or system is scoped clearly before I start building.</p>
 					</article>
 					<div class="payment-options">
-						<article class="term-card tilt-card reveal" data-tilt-strength="20">
+						<article class="term-card tilt-card reveal" data-tilt-strength="12">
 							<span class="icon-box"><span class="robux-mark" aria-hidden="true"></span></span>
 							<h3>Robux</h3>
 							<strong>3K+</strong>
 							<p>Minimum Robux budget for smaller tasks and contained systems.</p>
 						</article>
-						<article class="term-card tilt-card reveal" data-tilt-strength="20">
+						<article class="term-card tilt-card reveal" data-tilt-strength="12">
 							<span class="icon-box"><i class="fab fa-paypal" aria-hidden="true"></i></span>
 							<h3>PayPal</h3>
 							<strong>$9+</strong>
@@ -1402,32 +1402,32 @@
 				</div>
 
 				<div class="services-grid">
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-gamepad" aria-hidden="true"></i></span>
 						<h3>Gameplay Systems</h3>
 						<p>Core mechanics, progression, rewards, stats, and server-owned rules that feel good to play.</p>
 					</article>
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-flask" aria-hidden="true"></i></span>
 						<h3>Simulator Systems</h3>
 						<p>Cashgrab loops, pets, rebirths, upgrades, auras, multipliers, and balanced progression.</p>
 					</article>
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-database" aria-hidden="true"></i></span>
 						<h3>Data Systems</h3>
 						<p>Saving that protects player progress with clean profiles, backups, and safe migrations.</p>
 					</article>
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-layer-group" aria-hidden="true"></i></span>
 						<h3>Inventory Systems</h3>
 						<p>Items, rarity, equip states, UI syncing, collection data, and secure server validation.</p>
 					</article>
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-bolt" aria-hidden="true"></i></span>
 						<h3>TD Systems</h3>
 						<p>Waves, tower placement, targeting, upgrades, projectiles, rewards, and enemy flow.</p>
 					</article>
-					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+					<article class="service-card tilt-card reveal" data-tilt-strength="12">
 						<span class="icon-box"><i class="fas fa-shield-alt" aria-hidden="true"></i></span>
 						<h3>Anti-Exploit Systems</h3>
 						<p>Remote validation, cooldowns, server authority, sanity checks, and cleaner networking.</p>
@@ -1621,7 +1621,7 @@
 
 				if (target.classList.contains("tilt-card")) {
 					const state = getTiltState(target);
-					const strength = Number(target.dataset.tiltStrength || 15);
+					const strength = Number(target.dataset.tiltStrength || 10);
 					state.targetRx = (0.5 - py) * strength;
 					state.targetRy = (px - 0.5) * strength;
 					activeTiltCards.add(target);
@@ -1654,8 +1654,8 @@
 			function animateTilt() {
 				activeTiltCards.forEach((card) => {
 					const state = getTiltState(card);
-					state.rx += (state.targetRx - state.rx) * 0.11;
-					state.ry += (state.targetRy - state.ry) * 0.11;
+					state.rx += (state.targetRx - state.rx) * 0.065;
+					state.ry += (state.targetRy - state.ry) * 0.065;
 					card.style.setProperty("--rx", `${state.rx.toFixed(3)}deg`);
 					card.style.setProperty("--ry", `${state.ry.toFixed(3)}deg`);
 

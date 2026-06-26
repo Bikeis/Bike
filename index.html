@@ -43,36 +43,40 @@
 				overflow-x: hidden;
 			}
 
-			body::before {
+			.background-layer {
 				position: fixed;
 				inset: 0;
 				z-index: 0;
+				overflow: hidden;
+				pointer-events: none;
+				transform: translateZ(0);
+			}
+
+			.background-layer::before {
+				position: absolute;
+				inset: 0;
 				content: "";
 				background-image:
 					linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
 					linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
 				background-size: 78px 78px;
 				mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent 78%);
-				pointer-events: none;
 			}
 
-			body::after {
-				position: fixed;
+			.background-layer::after {
+				position: absolute;
 				inset: -25%;
-				z-index: 0;
 				content: "";
 				background:
 					radial-gradient(circle at 25% 35%, rgba(45, 226, 160, 0.09), transparent 25rem),
 					radial-gradient(circle at 74% 62%, rgba(20, 201, 143, 0.07), transparent 28rem);
 				filter: blur(12px);
 				animation: ambientDrift 16s ease-in-out infinite alternate;
-				pointer-events: none;
 			}
 
 			#particles {
-				position: fixed;
+				position: absolute;
 				inset: 0;
-				z-index: 1;
 				width: 100%;
 				height: 100%;
 				pointer-events: none;
@@ -1076,6 +1080,16 @@
 			}
 
 			@media (max-width: 940px) {
+				.background-layer {
+					height: 100svh;
+				}
+
+				.background-layer::after {
+					animation: none;
+					filter: blur(8px);
+					opacity: 0.78;
+				}
+
 				.nav {
 					align-items: flex-start;
 					flex-direction: column;
@@ -1086,6 +1100,10 @@
 				.nav-links {
 					flex-wrap: wrap;
 					justify-content: flex-start;
+				}
+
+				.nav-links::before {
+					display: none;
 				}
 
 				.about-layout,
@@ -1115,13 +1133,43 @@
 					padding: 76px 0;
 				}
 
+				h1 {
+					font-size: clamp(3rem, 16vw, 5rem);
+				}
+
+				.hero-avatar {
+					width: 92px;
+					height: 92px;
+					border-radius: 24px;
+				}
+
+				.main-actions .button {
+					width: min(100%, 280px);
+				}
+
 				.project-strip {
 					grid-auto-columns: minmax(260px, 88vw);
+				}
+
+				.project-card {
+					min-height: 540px;
 				}
 
 				.stats,
 				.quality-grid {
 					grid-template-columns: 1fr;
+				}
+
+				.video-modal {
+					padding: 14px;
+				}
+
+				.video-dialog {
+					border-radius: 16px;
+				}
+
+				.modal-video {
+					max-height: 64vh;
 				}
 
 				.contact-card,
@@ -1134,7 +1182,9 @@
 		</style>
 	</head>
 	<body>
-		<canvas id="particles" aria-hidden="true"></canvas>
+		<div class="background-layer" aria-hidden="true">
+			<canvas id="particles"></canvas>
+		</div>
 
 		<header class="site-header">
 			<nav class="nav page-shell" aria-label="Primary navigation">
@@ -1476,18 +1526,21 @@
 			let width = 0;
 			let height = 0;
 			let particles = [];
+			let resizeTimer;
 
 			function resizeParticles() {
 				const ratio = window.devicePixelRatio || 1;
-				width = window.innerWidth;
-				height = window.innerHeight;
+				const bounds = canvas.parentElement.getBoundingClientRect();
+				width = Math.ceil(bounds.width || window.innerWidth);
+				height = Math.ceil(bounds.height || window.innerHeight);
 				canvas.width = width * ratio;
 				canvas.height = height * ratio;
 				canvas.style.width = width + "px";
 				canvas.style.height = height + "px";
 				context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-				const count = Math.min(56, Math.max(28, Math.floor(width / 34)));
+				const isMobile = window.matchMedia("(max-width: 600px)").matches;
+				const count = isMobile ? Math.min(32, Math.max(18, Math.floor(width / 46))) : Math.min(56, Math.max(28, Math.floor(width / 34)));
 				particles = Array.from({ length: count }, () => ({
 					x: Math.random() * width,
 					y: Math.random() * height,
@@ -1742,7 +1795,10 @@
 			window.addEventListener("resize", updateActiveSection);
 			updateActiveSection();
 
-			window.addEventListener("resize", resizeParticles);
+			window.addEventListener("resize", () => {
+				window.clearTimeout(resizeTimer);
+				resizeTimer = window.setTimeout(resizeParticles, 160);
+			});
 			resizeParticles();
 			drawParticles();
 			animateTilt();

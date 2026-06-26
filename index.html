@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>BIKE | Roblox Scripter For Hire</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
+		<style>
+			:root {
+				--bg: #020617;
+				--card: rgba(6, 12, 24, 0.88);
+				--card-strong: rgba(8, 15, 28, 0.96);
+				--line: rgba(248, 250, 252, 0.12);
+				--line-bright: rgba(45, 226, 160, 0.62);
+				--text: #f8fafc;
+				--muted: #a8b3c5;
+				--soft: #dbe7f3;
+				--primary: #14c98f;
+				--accent: #2de2a0;
+				--glow: rgba(45, 226, 160, 0.24);
+				--shadow: 0 24px 70px rgba(0, 0, 0, 0.38);
+				--radius: 20px;
+				--max-width: 1160px;
+			}
+
+			* {
+				box-sizing: border-box;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				margin: 0;
+				min-height: 100vh;
+				color: var(--text);
+				background:
+					radial-gradient(circle at 50% -20%, rgba(255, 255, 255, 0.055), transparent 34rem),
+					linear-gradient(180deg, #020617 0%, #040915 44%, #020617 100%);
+				font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+				line-height: 1.6;
+				overflow-x: hidden;
+			}
+
+			body::before {
+				position: fixed;
+				inset: 0;
+				z-index: 0;
+				content: "";
+				background-image:
+					linear-gradient(rgba(255, 255, 255, 0.026) 1px, transparent 1px),
+					linear-gradient(90deg, rgba(255, 255, 255, 0.026) 1px, transparent 1px);
+				background-size: 78px 78px;
+				mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), transparent 78%);
+				pointer-events: none;
+			}
+
+			body::after {
+				position: fixed;
+				inset: -25%;
+				z-index: 0;
+				content: "";
+				background:
+					radial-gradient(circle at 25% 35%, rgba(45, 226, 160, 0.09), transparent 25rem),
+					radial-gradient(circle at 74% 62%, rgba(20, 201, 143, 0.07), transparent 28rem);
+				filter: blur(12px);
+				animation: ambientDrift 16s ease-in-out infinite alternate;
+				pointer-events: none;
+			}
+
+			#particles {
+				position: fixed;
+				inset: 0;
+				z-index: 1;
+				width: 100%;
+				height: 100%;
+				pointer-events: none;
+			}
+
+			.site-header,
+			main,
+			.site-footer,
+			.video-modal {
+				position: relative;
+			}
+
+			main,
+			.site-footer {
+				z-index: 2;
+			}
+
+			a {
+				color: inherit;
+				text-decoration: none;
+			}
+
+			img {
+				display: block;
+				max-width: 100%;
+			}
+
+			button {
+				font: inherit;
+			}
+
+			.page-shell {
+				width: min(var(--max-width), calc(100% - 40px));
+				margin: 0 auto;
+			}
+
+			.site-header {
+				position: sticky;
+				top: 0;
+				z-index: 20;
+				border-bottom: 1px solid var(--line);
+				background: rgba(2, 6, 23, 0.78);
+				backdrop-filter: blur(20px);
+			}
+
+			.nav {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				min-height: 76px;
+				gap: 24px;
+			}
+
+			.logo {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				font-weight: 950;
+			}
+
+			.logo-mark {
+				display: inline-block;
+				width: 40px;
+				height: 40px;
+				border: 1px solid var(--line-bright);
+				border-radius: 16px;
+				background: #050b16 url("images/BikePFP.png") center / cover no-repeat;
+				box-shadow: 0 16px 36px var(--glow);
+			}
+
+			.nav-links {
+				position: relative;
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: 6px;
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+
+			.nav-links::before {
+				position: absolute;
+				left: var(--active-left, 0);
+				top: var(--active-top, 0);
+				width: var(--active-width, 0);
+				height: var(--active-height, 38px);
+				border: 1px solid rgba(45, 226, 160, 0.34);
+				border-radius: 999px;
+				background: rgba(45, 226, 160, 0.08);
+				box-shadow: 0 0 28px rgba(45, 226, 160, 0.08);
+				content: "";
+				opacity: var(--active-opacity, 0);
+				pointer-events: none;
+				transition: left 260ms cubic-bezier(0.16, 1, 0.3, 1), top 260ms cubic-bezier(0.16, 1, 0.3, 1), width 260ms cubic-bezier(0.16, 1, 0.3, 1), height 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease;
+			}
+
+			.nav-links a {
+				position: relative;
+				z-index: 1;
+				display: inline-flex;
+				align-items: center;
+				min-height: 38px;
+				padding: 0 13px;
+				border: 1px solid transparent;
+				border-radius: 999px;
+				color: var(--muted);
+				font-size: 0.92rem;
+				font-weight: 800;
+				transition: color 220ms ease, transform 220ms ease;
+			}
+
+			.nav-links .nav-hire {
+				min-height: 42px;
+				padding: 0 18px;
+				color: #02140f;
+			}
+
+			.nav-links a:hover {
+				color: var(--text);
+				transform: translateY(-1px);
+			}
+
+			.nav-links a.is-active {
+				color: var(--accent);
+			}
+
+			.footer-links a.is-active {
+				color: var(--accent);
+				border-color: rgba(45, 226, 160, 0.34);
+				background: rgba(45, 226, 160, 0.08);
+				box-shadow: 0 0 28px rgba(45, 226, 160, 0.08);
+			}
+
+			.nav-links .nav-hire,
+			.nav-links .nav-hire:hover,
+			.nav-links .nav-hire.is-active {
+				border-color: rgba(52, 211, 153, 0.7);
+				background: #0bd48d;
+				color: #02140f;
+				box-shadow: 0 18px 42px var(--glow);
+			}
+
+			.section {
+				padding: 104px 0;
+			}
+
+			.hero {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				min-height: calc(100vh - 76px);
+				padding: 78px 0 96px;
+				text-align: center;
+			}
+
+			.hero-inner {
+				width: min(820px, 100%);
+				margin: 0 auto;
+			}
+
+			.hero-avatar {
+				width: 116px;
+				height: 116px;
+				margin: 0 auto 28px;
+				border: 1px solid var(--line-bright);
+				border-radius: 30px;
+				background: #050b16 url("images/BikePFP.png") center / cover no-repeat;
+				box-shadow: 0 24px 70px rgba(45, 226, 160, 0.16);
+			}
+
+			.section-heading .eyebrow,
+			.hero .eyebrow,
+			p.eyebrow {
+				display: inline-flex;
+				align-items: center;
+				gap: 9px;
+				margin: 0 0 18px;
+				color: #2de2a0 !important;
+				font-size: 0.78rem;
+				font-weight: 950;
+				letter-spacing: 0.13em;
+				opacity: 1;
+				text-transform: uppercase;
+			}
+
+			.section-heading .eyebrow::before,
+			.hero .eyebrow::before,
+			p.eyebrow::before {
+				width: 34px;
+				height: 2px;
+				content: "";
+				background: linear-gradient(90deg, #2de2a0, transparent);
+			}
+
+			h1,
+			h2,
+			h3,
+			p {
+				margin-top: 0;
+			}
+
+			h1 {
+				max-width: 780px;
+				margin: 0 auto 16px;
+				font-size: clamp(3.8rem, 9vw, 7.5rem);
+				line-height: 0.92;
+				letter-spacing: 0;
+			}
+
+			.hero-kicker {
+				display: block;
+				margin-bottom: 10px;
+				color: var(--soft);
+				font-size: clamp(1.08rem, 2.2vw, 1.7rem);
+				font-weight: 500;
+			}
+
+			.hero-name {
+				display: block;
+				font-weight: 950;
+			}
+
+			.status {
+				display: inline-flex;
+				align-items: center;
+				gap: 10px;
+				min-height: 38px;
+				margin-bottom: 22px;
+				padding: 0 17px;
+				border: 1px solid rgba(45, 226, 160, 0.3);
+				border-radius: 999px;
+				background: rgba(6, 12, 24, 0.84);
+				color: var(--text);
+				font-size: 0.95rem;
+				font-weight: 850;
+			}
+
+			.status::before {
+				width: 9px;
+				height: 9px;
+				border-radius: 999px;
+				content: "";
+				background: var(--accent);
+				box-shadow: 0 0 22px var(--glow);
+			}
+
+			.status-available {
+				color: var(--accent);
+			}
+
+			.hero-text {
+				max-width: 640px;
+				margin: 0 auto 30px;
+				color: var(--soft);
+				font-size: 1.12rem;
+			}
+
+			.actions {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 14px;
+			}
+
+			.hero-actions {
+				display: grid;
+				justify-items: center;
+				gap: 18px;
+			}
+
+			.main-actions .button {
+				min-height: 58px;
+				min-width: 178px;
+				padding: 0 28px;
+				font-size: 0.95rem;
+				letter-spacing: 0.04em;
+				text-transform: uppercase;
+			}
+
+			.social-actions .button {
+				width: 52px;
+				min-width: 52px;
+				padding: 0;
+				font-size: 1.08rem;
+			}
+
+			.button {
+				position: relative;
+				isolation: isolate;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				margin-top: 2px;
+				min-height: 48px;
+				padding: 0 20px;
+				border: 1px solid rgba(248, 250, 252, 0.15);
+				border-radius: 16px;
+				background:
+					radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(45, 226, 160, 0.075), transparent 72%),
+					rgba(4, 9, 18, 0.9);
+				color: var(--text);
+				cursor: pointer;
+				font-size: 0.86rem;
+				font-weight: 950;
+				gap: 10px;
+				overflow: hidden;
+				transition: transform 150ms ease, background 150ms ease, box-shadow 80ms ease;
+			}
+
+			.button::before,
+			.tilt-card::before {
+				position: absolute;
+				inset: 0;
+				z-index: -1;
+				border-radius: inherit;
+				content: "";
+				background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(45, 226, 160, 0.085), transparent 76%);
+				opacity: 0;
+				transition: opacity 160ms ease;
+			}
+
+			.button:hover,
+			.tilt-card:hover {
+				border-color: var(--line-bright);
+				box-shadow: 0 18px 56px rgba(45, 226, 160, 0.13), 0 0 0 1px rgba(45, 226, 160, 0.08);
+			}
+
+			.button:hover {
+				transform: translateY(-2px) scale(1.015);
+			}
+
+			.button.no-hover-scale:hover {
+				transform: translateY(-2px);
+			}
+
+			.button:active,
+			.social-links button:active,
+			.social-links a:active,
+			.copy-icon:active {
+				transform: translateY(0) scale(0.94);
+			}
+
+			.button:hover::before,
+			.tilt-card:hover::before {
+				opacity: 1;
+			}
+
+			.button.primary {
+				border-color: rgba(52, 211, 153, 0.7);
+				background: #0bd48d;
+				color: #02140f;
+				box-shadow: 0 18px 42px var(--glow);
+			}
+
+			.button.primary::before {
+				background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 255, 255, 0.14), transparent 68%);
+			}
+
+			.tilt-card {
+				position: relative;
+				isolation: isolate;
+				overflow: hidden;
+				border: 1px solid var(--line);
+				border-radius: var(--radius);
+				background: var(--card);
+				backdrop-filter: blur(18px);
+				box-shadow: var(--shadow);
+				transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+				transition: box-shadow 80ms ease, background 150ms ease;
+				will-change: transform;
+			}
+
+			.term-card:hover,
+			.service-card:hover {
+				transform: perspective(900px) rotateX(var(--rx, 5deg)) rotateY(var(--ry, -5deg));
+			}
+
+			.stats {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 16px;
+				margin-bottom: 42px;
+			}
+
+			.stat {
+				padding: 28px;
+				text-align: center;
+			}
+
+			.stat strong {
+				display: block;
+				color: var(--accent);
+				font-size: clamp(2.2rem, 5vw, 3.2rem);
+				line-height: 1;
+			}
+
+			.stat span {
+				color: var(--muted);
+				font-size: 0.78rem;
+				font-weight: 900;
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+			}
+
+			.section-heading {
+				margin-bottom: 36px;
+				text-align: left;
+			}
+
+			.section-heading h2 {
+				margin-bottom: 12px;
+				font-size: clamp(2.3rem, 5vw, 4rem);
+				line-height: 1;
+			}
+
+			.section-heading p {
+				max-width: 620px;
+				margin: 0;
+				color: var(--muted);
+			}
+
+			.about-layout {
+				display: grid;
+				grid-template-columns: minmax(0, 1fr) minmax(300px, 0.95fr);
+				align-items: center;
+				gap: 42px;
+			}
+
+			.about-copy p {
+				color: var(--muted);
+				font-size: 1.05rem;
+			}
+
+			.pills {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 10px;
+				margin-top: 28px;
+			}
+
+			.pill,
+			.tag {
+				display: inline-flex;
+				align-items: center;
+				min-height: 34px;
+				padding: 0 14px;
+				border: 1px solid rgba(248, 250, 252, 0.12);
+				border-radius: 999px;
+				background: rgba(255, 255, 255, 0.045);
+				color: var(--soft);
+				font-size: 0.78rem;
+				font-weight: 850;
+			}
+
+			.stack-card {
+				padding: 28px;
+			}
+
+			.robux-mark {
+				display: inline-block;
+				width: 26px;
+				height: 26px;
+				background: var(--accent);
+				mask: url("images/RobuxIcon.png") center / contain no-repeat;
+				-webkit-mask: url("images/RobuxIcon.png") center / contain no-repeat;
+			}
+
+			.card-title-row {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				margin-bottom: 22px;
+			}
+
+			.icon-box {
+				display: grid;
+				width: 48px;
+				height: 48px;
+				place-items: center;
+				border-radius: 16px;
+				background: rgba(16, 185, 129, 0.13);
+				color: var(--accent);
+				font-size: 1.1rem;
+			}
+
+			.card-title-row h3 {
+				margin-bottom: 0;
+			}
+
+			.card-title-row p {
+				margin-bottom: 0;
+				color: var(--muted);
+			}
+
+			.stack-tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 12px;
+				padding-top: 18px;
+				border-top: 1px solid var(--line);
+			}
+
+			.stack-tags .tag::before {
+				width: 8px;
+				height: 8px;
+				margin-right: 8px;
+				border-radius: 999px;
+				content: "";
+				background: var(--accent);
+			}
+
+			.project-strip {
+				display: grid;
+				grid-auto-flow: column;
+				grid-auto-columns: minmax(286px, 368px);
+				gap: 20px;
+				overflow-x: auto;
+				padding: 6px 6px 22px;
+				scroll-snap-type: x mandatory;
+				scrollbar-color: var(--primary) rgba(255, 255, 255, 0.08);
+			}
+
+			.project-card {
+				display: flex;
+				flex-direction: column;
+				min-height: 520px;
+				scroll-snap-align: start;
+			}
+
+			.project-image {
+				position: relative;
+				height: 188px;
+				background: #0f172a;
+			}
+
+			.project-image img,
+			.project-image video {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+
+			.project-image video {
+				background: #020617;
+			}
+
+			.project-image::after {
+				position: absolute;
+				inset: 0;
+				pointer-events: none;
+				content: "";
+				background: linear-gradient(180deg, transparent 38%, rgba(2, 6, 23, 0.86));
+			}
+
+			.project-body {
+				display: flex;
+				flex: 1;
+				flex-direction: column;
+				padding: 22px;
+			}
+
+			.project-body h3 {
+				margin-bottom: 8px;
+				font-size: 1.08rem;
+			}
+
+			.project-body p {
+				min-height: 126px;
+				margin-bottom: 16px;
+				color: var(--muted);
+				font-size: 0.92rem;
+			}
+
+			.tags {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+				min-height: 76px;
+				align-content: flex-start;
+				margin-top: auto;
+				margin-bottom: 18px;
+			}
+
+			.project-body .view-video {
+				align-self: flex-start;
+				margin-top: 0;
+			}
+
+			.terms-grid,
+			.services-grid {
+				display: grid;
+				grid-template-columns: repeat(3, minmax(0, 1fr));
+				gap: 20px;
+			}
+
+			.terms-grid {
+				grid-template-columns: 1fr;
+				max-width: none;
+				margin: 0 auto;
+			}
+
+			.payment-options {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 20px;
+			}
+
+			.term-card {
+				text-align: center;
+			}
+
+			.term-card .icon-box {
+				margin: 0 auto 16px;
+			}
+
+			.term-card,
+			.service-card {
+				min-height: 216px;
+				padding: 28px;
+			}
+
+			.term-card h3,
+			.service-card h3 {
+				margin-bottom: 10px;
+				font-size: 1.15rem;
+			}
+
+			.term-card p,
+			.service-card p {
+				margin-bottom: 0;
+				color: var(--muted);
+			}
+
+			.term-card strong {
+				display: block;
+				margin-bottom: 8px;
+				color: var(--accent);
+				font-size: 1.85rem;
+				line-height: 1;
+			}
+
+			.quality-grid {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 18px;
+				margin-top: 20px;
+			}
+
+			.quality-item {
+				display: flex;
+				align-items: center;
+				gap: 14px;
+				min-height: 88px;
+				padding: 20px;
+				color: var(--soft);
+				font-weight: 850;
+			}
+
+			.quality-item i {
+				display: grid;
+				flex: 0 0 auto;
+				width: 40px;
+				height: 40px;
+				place-items: center;
+				border-radius: 14px;
+				background: rgba(45, 226, 160, 0.09);
+				color: var(--accent);
+			}
+
+			.video-modal {
+				position: fixed;
+				inset: 0;
+				z-index: 40;
+				display: grid;
+				place-items: center;
+				padding: 24px;
+				background: rgba(2, 6, 23, 0.78);
+				backdrop-filter: blur(18px);
+				opacity: 0;
+				pointer-events: none;
+				transition: opacity 240ms ease;
+			}
+
+			.video-modal.is-open {
+				opacity: 1;
+				pointer-events: auto;
+			}
+
+			.video-dialog {
+				width: min(980px, 100%);
+				border: 1px solid var(--line-bright);
+				border-radius: var(--radius);
+				background: #040912;
+				box-shadow: 0 30px 90px rgba(0, 0, 0, 0.5), 0 0 60px rgba(45, 226, 160, 0.12);
+				opacity: 0;
+				overflow: hidden;
+				transform: translateY(34px) scale(0.97);
+				transition: opacity 260ms ease, transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+			}
+
+			.video-modal.is-open .video-dialog {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+
+			.video-topbar {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: 16px;
+				padding: 14px 16px;
+				border-bottom: 1px solid var(--line);
+			}
+
+			.video-topbar strong {
+				color: var(--text);
+			}
+
+			.modal-close {
+				width: 40px;
+				min-width: 40px;
+				height: 40px;
+				padding: 0;
+			}
+
+			.modal-video {
+				width: 100%;
+				max-height: 72vh;
+				background: #020617;
+			}
+
+			.contact-card {
+				max-width: 760px;
+				margin: 0 auto;
+				padding: 46px;
+				text-align: center;
+			}
+
+			.discord-icon {
+				position: relative;
+				display: grid;
+				width: 64px;
+				height: 64px;
+				margin: 0 auto 22px;
+				place-items: center;
+				border: 1px solid rgba(52, 211, 153, 0.26);
+				border-radius: 20px;
+				background: rgba(16, 185, 129, 0.12);
+				color: var(--accent);
+				appearance: none;
+				cursor: pointer;
+				font-size: 1.9rem;
+				box-shadow: 0 16px 44px rgba(16, 185, 129, 0.12);
+			}
+
+			.copy-icon {
+				cursor: pointer;
+				transition: transform 180ms ease, border-color 140ms ease, box-shadow 140ms ease;
+			}
+
+			.copy-icon:hover {
+				transform: translateY(-2px);
+				border-color: var(--line-bright);
+				box-shadow: 0 18px 50px rgba(45, 226, 160, 0.14);
+			}
+
+			.copy-icon::after {
+				position: absolute;
+				left: 50%;
+				bottom: calc(100% + 10px);
+				padding: 5px 10px;
+				border: 1px solid rgba(45, 226, 160, 0.24);
+				border-radius: 999px;
+				background: rgba(4, 9, 18, 0.96);
+				color: var(--accent);
+				content: "\2713  Copied!";
+				font-size: 0.78rem;
+				font-weight: 900;
+				opacity: 0;
+				pointer-events: none;
+				transform: translate(-50%, 6px);
+				transition: opacity 160ms ease, transform 160ms ease;
+				white-space: nowrap;
+			}
+
+			.copy-icon.is-copied::after {
+				opacity: 1;
+				transform: translate(-50%, 0);
+			}
+
+			.copy-icon-button::after {
+				position: absolute;
+				left: 50%;
+				bottom: calc(100% + 8px);
+				padding: 5px 10px;
+				border: 1px solid rgba(45, 226, 160, 0.24);
+				border-radius: 999px;
+				background: rgba(4, 9, 18, 0.96);
+				color: var(--accent);
+				content: "\2713  Copied!";
+				font-size: 0.76rem;
+				font-weight: 900;
+				opacity: 0;
+				pointer-events: none;
+				transform: translate(-50%, 6px);
+				transition: opacity 160ms ease, transform 160ms ease;
+				white-space: nowrap;
+			}
+
+			.copy-icon-button.is-copied::after {
+				opacity: 1;
+				transform: translate(-50%, 0);
+			}
+
+			.copy-icon-button {
+				position: relative;
+				overflow: visible;
+			}
+
+			.contact-card h2 {
+				margin-bottom: 12px;
+				font-size: clamp(2rem, 5vw, 3.2rem);
+				line-height: 1;
+			}
+
+			.contact-card > p {
+				max-width: 520px;
+				margin: 0 auto 28px;
+				color: var(--muted);
+				font-size: 1.05rem;
+			}
+
+			.copy-discord {
+				width: min(100%, 420px);
+				min-height: 58px;
+				justify-content: center;
+				font-size: 1rem;
+			}
+
+			.copy-name {
+				font-size: 1.05rem;
+			}
+
+			.helpful {
+				margin-top: 34px;
+				padding-top: 28px;
+				border-top: 1px solid var(--line);
+			}
+
+			.helpful h3 {
+				margin-bottom: 14px;
+				color: var(--muted);
+				font-size: 0.78rem;
+				font-weight: 950;
+				letter-spacing: 0.12em;
+				text-transform: uppercase;
+			}
+
+			.helpful-row,
+			.reply-row {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 12px;
+			}
+
+			.reply-row {
+				margin-top: 18px;
+				color: var(--muted);
+				font-size: 0.9rem;
+			}
+
+			.reply-row span {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+			}
+
+			.reply-row i {
+				color: var(--accent);
+			}
+
+			.site-footer {
+				border-top: 1px solid var(--line);
+				padding: 54px 0 42px;
+				color: var(--muted);
+				text-align: center;
+			}
+
+			.footer-brand {
+				display: inline-flex;
+				align-items: center;
+				gap: 12px;
+				margin-bottom: 26px;
+				color: var(--text);
+				font-size: 1.35rem;
+				font-weight: 950;
+			}
+
+			.footer-links,
+			.social-links {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				gap: 24px;
+				margin: 0 0 24px;
+				padding: 0;
+				list-style: none;
+			}
+
+			.footer-links a {
+				display: inline-flex;
+				align-items: center;
+				min-height: 38px;
+				padding: 0 13px;
+				border: 1px solid transparent;
+				border-radius: 999px;
+				color: var(--muted);
+				font-weight: 850;
+				transition: color 200ms ease, background 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+			}
+
+			.footer-links a:hover {
+				color: var(--accent);
+			}
+
+			.footer-hire {
+				min-height: 38px;
+				padding: 0 16px;
+			}
+
+			.social-links {
+				gap: 12px;
+			}
+
+			.social-links a,
+			.social-links button {
+				display: grid;
+				width: 44px;
+				height: 44px;
+				place-items: center;
+				border: 1px solid var(--line);
+				border-radius: 16px;
+				background: rgba(255, 255, 255, 0.045);
+				color: inherit;
+				cursor: pointer;
+				font: inherit;
+				transition: transform 200ms ease, color 200ms ease, border-color 200ms ease;
+			}
+
+			.social-links a:hover,
+			.social-links button:hover {
+				transform: translateY(-2px);
+				border-color: var(--line-bright);
+				color: var(--accent);
+			}
+
+			.reveal {
+				opacity: 0;
+				transform: translateY(18px);
+				animation: reveal 680ms ease forwards;
+			}
+
+			.reveal:nth-child(2) {
+				animation-delay: 90ms;
+			}
+
+			.reveal:nth-child(3) {
+				animation-delay: 160ms;
+			}
+
+			@keyframes reveal {
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			@keyframes ambientDrift {
+				from {
+					transform: translate3d(-1.5%, -1%, 0) scale(1);
+				}
+
+				to {
+					transform: translate3d(1.5%, 1%, 0) scale(1.04);
+				}
+			}
+
+			@media (max-width: 940px) {
+				.nav {
+					align-items: flex-start;
+					flex-direction: column;
+					justify-content: center;
+					padding: 14px 0;
+				}
+
+				.nav-links {
+					flex-wrap: wrap;
+					justify-content: flex-start;
+				}
+
+				.about-layout,
+				.terms-grid,
+				.payment-options,
+				.services-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.hero {
+					min-height: auto;
+					padding-top: 56px;
+				}
+
+				.stats,
+				.quality-grid {
+					grid-template-columns: repeat(2, minmax(0, 1fr));
+				}
+			}
+
+			@media (max-width: 600px) {
+				.page-shell {
+					width: min(100% - 28px, var(--max-width));
+				}
+
+				.section {
+					padding: 76px 0;
+				}
+
+				.project-strip {
+					grid-auto-columns: minmax(260px, 88vw);
+				}
+
+				.stats,
+				.quality-grid {
+					grid-template-columns: 1fr;
+				}
+
+				.contact-card,
+				.stack-card,
+				.term-card,
+				.service-card {
+					padding: 24px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="particles" aria-hidden="true"></canvas>
+
+		<header class="site-header">
+			<nav class="nav page-shell" aria-label="Primary navigation">
+				<a class="logo" href="#home">
+					<span class="logo-mark" aria-hidden="true"></span>
+					<span>BIKE</span>
+				</a>
+				<ul class="nav-links">
+					<li><a href="#home">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#works">Works</a></li>
+					<li><a href="#terms">Terms</a></li>
+					<li><a href="#services">Services</a></li>
+					<li><a href="#contact">Contact</a></li>
+					<li><a class="button primary nav-hire" href="#contact">Hire Me</a></li>
+				</ul>
+			</nav>
+		</header>
+
+		<main>
+			<section class="hero page-shell" id="home">
+				<div class="hero-inner reveal">
+					<div class="hero-avatar" aria-hidden="true"></div>
+					<p class="eyebrow">Roblox Scripter For Hire</p>
+					<h1><span class="hero-kicker">Hi, I'm</span><span class="hero-name">BIKE</span></h1>
+					<p class="status"><span>Status</span><span>-</span><span class="status-available">Available</span></p>
+					<p class="hero-text">I build optimized, efficient, and scalable Roblox systems that players love.</p>
+					<div class="hero-actions">
+						<div class="actions main-actions">
+							<a class="button primary" href="#works">View Portfolio</a>
+							<a class="button no-hover-scale" href="#contact">Hire Me</a>
+						</div>
+						<div class="actions social-actions">
+							<button class="button copy-icon-button" type="button" data-copy="bikeis" aria-label="Copy Discord username">
+								<i class="fab fa-discord" aria-hidden="true"></i>
+							</button>
+							<a class="button" href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub">
+								<i class="fab fa-github" aria-hidden="true"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section page-shell" id="about">
+				<div class="section-heading reveal">
+					<p class="eyebrow">About Me</p>
+					<h2>Who I Am</h2>
+				</div>
+
+				<div class="stats">
+					<div class="stat tilt-card reveal">
+						<strong>2+</strong>
+						<span>Years of Experience</span>
+					</div>
+					<div class="stat tilt-card reveal">
+						<strong>10+</strong>
+						<span>Happy Clients</span>
+					</div>
+				</div>
+
+				<div class="about-layout">
+					<div class="about-copy reveal">
+						<p>Hey, I'm <b>Bike</b>! A Roblox scripter with 2 years of experience making efficient systems that feel polished for players to enjoy.</p>
+						<p>I work on both frontend and backend. I can build clean UI flows, responsive client effects, secure remotes, server-owned gameplay logic, reliable data handling, and systems that stay organized as your game grows.</p>
+						<p>Clean code, honest timelines, no drama. And code your team can still read after handoff.</p>
+					</div>
+
+					<article class="stack-card tilt-card reveal">
+						<div class="card-title-row">
+							<span class="icon-box"><i class="fas fa-code" aria-hidden="true"></i></span>
+							<div>
+								<h3>Tech Stack</h3>
+							</div>
+						</div>
+						<div class="stack-tags">
+							<span class="tag">Luau</span>
+							<span class="tag">VSCode</span>
+							<span class="tag">TypeScript</span>
+							<span class="tag">JavaScript</span>
+							<span class="tag">Python</span>
+							<span class="tag">Rojo</span>
+							<span class="tag">Wally</span>
+							<span class="tag">DataService</span>
+							<span class="tag">Git</span>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<section class="section page-shell" id="works">
+				<div class="section-heading reveal">
+					<p class="eyebrow">Works</p>
+					<h2>Things I've built</h2>
+					<p>Systems I have designed and scripted.</p>
+				</div>
+
+				<div class="project-strip" aria-label="Work list">
+					<article class="project-card tilt-card">
+						<div class="project-image">
+							<video autoplay muted loop playsinline poster="images/pic02.jpg">
+								<source src="videos/grow-a-pixel-fruit.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="project-body">
+							<h3>Grow a Pixel Fruit</h3>
+							<p>A Grow a Garden-inspired game featuring One Piece fruit themes. Includes a seed shop, interactive garden plots, planting mechanics, harvesting, and an NPC-driven economy.</p>
+							<div class="tags">
+								<span class="tag">Plots</span>
+								<span class="tag">Shop</span>
+								<span class="tag">Sell</span>
+								<span class="tag">Planting</span>
+								<span class="tag">DataStore</span>
+							</div>
+							<button class="button primary view-video" type="button" data-title="Grow a Pixel Fruit" data-video="videos/grow-a-pixel-fruit.mp4" data-poster="images/pic02.jpg">View Project</button>
+						</div>
+					</article>
+
+					<article class="project-card tilt-card">
+						<div class="project-image">
+							<video autoplay muted loop playsinline poster="images/pic03.jpg">
+								<source src="videos/td-game.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="project-body">
+							<h3>Tower Defense Framework</h3>
+							<p>A BTD 6-inspired game with Wave logic, tower placement, upgrades, mob pathing, projectiles, damage rules, and responsive HUD feedback.</p>
+							<div class="tags">
+								<span class="tag">Waves</span>
+								<span class="tag">Towers</span>
+								<span class="tag">Upgrades</span>
+								<span class="tag">Pathing</span>
+							</div>
+							<button class="button primary view-video" type="button" data-title="Tower Defense Framework" data-video="videos/tower-defense-framework.mp4" data-poster="images/pic03.jpg">View Project</button>
+						</div>
+					</article>
+
+					<article class="project-card tilt-card">
+						<div class="project-image">
+							<video autoplay muted loop playsinline poster="images/pic04.jpg">
+								<source src="videos/incremental-game.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="project-body">
+							<h3>Incremental System</h3>
+							<p>A polished incremental system that combines resource gathering, upgrade mechanics, persistent player data, and intuitive UI to deliver satisfying long-term progression.</p>
+							<div class="tags">
+								<span class="tag">Progression</span>
+								<span class="tag">Upgrades</span>
+								<span class="tag">Economy</span>
+								<span class="tag">DataStore</span>
+								<span class="tag">UI</span>
+							</div>
+							<button class="button primary view-video" type="button" data-title="Incremental System" data-video="videos/incremental-system.mp4" data-poster="images/pic04.jpg">View Project</button>
+						</div>
+					</article>
+
+					<article class="project-card tilt-card">
+						<div class="project-image">
+							<video autoplay muted loop playsinline poster="images/pic05.jpg">
+								<source src="videos/hatching-system.mp4" type="video/mp4" />
+							</video>
+						</div>
+						<div class="project-body">
+							<h3>Hatching System</h3>
+							<p>Complete pet hatching system featuring rarity rolls, hatch animations, reward presentation, collection tracking, and persistent player data.</p>
+							<div class="tags">
+								<span class="tag">Hatching</span>
+								<span class="tag">RNG</span>
+								<span class="tag">DataStore</span>
+								<span class="tag">UI</span>
+							</div>
+							<button class="button primary view-video" type="button" data-title="Hatching System" data-video="videos/hatching-system.mp4" data-poster="images/pic05.jpg">View Project</button>
+						</div>
+					</article>
+				</div>
+			</section>
+
+			<section class="section page-shell" id="terms">
+				<div class="section-heading reveal">
+					<p class="eyebrow">Terms</p>
+					<h2>Payment & Workflow</h2>
+					<p>Simple terms before a commission starts.</p>
+				</div>
+
+					<div class="terms-grid">
+					<article class="term-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-tasks" aria-hidden="true"></i></span>
+						<h3>PAYMENT TYPE</h3>
+						<strong>Per Task</strong>
+						<p>Each feature or system is scoped clearly before I start building.</p>
+					</article>
+					<div class="payment-options">
+						<article class="term-card tilt-card reveal" data-tilt-strength="20">
+							<span class="icon-box"><span class="robux-mark" aria-hidden="true"></span></span>
+							<h3>Robux</h3>
+							<strong>3K+</strong>
+							<p>Minimum Robux budget for smaller tasks and contained systems.</p>
+						</article>
+						<article class="term-card tilt-card reveal" data-tilt-strength="20">
+							<span class="icon-box"><i class="fab fa-paypal" aria-hidden="true"></i></span>
+							<h3>PayPal</h3>
+							<strong>$9+</strong>
+							<p>Minimum PayPal budget. Larger systems are priced by scope.</p>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<section class="section page-shell" id="services">
+				<div class="section-heading reveal">
+					<p class="eyebrow">Services</p>
+					<h2>What I Can Help With</h2>
+					<p>Hire me for one piece or the whole thing. Either way, it ships clean.</p>
+				</div>
+
+				<div class="services-grid">
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-gamepad" aria-hidden="true"></i></span>
+						<h3>Gameplay Systems</h3>
+						<p>Core mechanics, progression, rewards, stats, and server-owned rules that feel good to play.</p>
+					</article>
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-flask" aria-hidden="true"></i></span>
+						<h3>Simulator Systems</h3>
+						<p>Cashgrab loops, pets, rebirths, upgrades, auras, multipliers, and balanced progression.</p>
+					</article>
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-database" aria-hidden="true"></i></span>
+						<h3>Data Systems</h3>
+						<p>Saving that protects player progress with clean profiles, backups, and safe migrations.</p>
+					</article>
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-layer-group" aria-hidden="true"></i></span>
+						<h3>Inventory Systems</h3>
+						<p>Items, rarity, equip states, UI syncing, collection data, and secure server validation.</p>
+					</article>
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-bolt" aria-hidden="true"></i></span>
+						<h3>TD Systems</h3>
+						<p>Waves, tower placement, targeting, upgrades, projectiles, rewards, and enemy flow.</p>
+					</article>
+					<article class="service-card tilt-card reveal" data-tilt-strength="20">
+						<span class="icon-box"><i class="fas fa-shield-alt" aria-hidden="true"></i></span>
+						<h3>Anti-Exploit Systems</h3>
+						<p>Remote validation, cooldowns, server authority, sanity checks, and cleaner networking.</p>
+					</article>
+				</div>
+
+				<div class="section-heading reveal" style="margin-top: 64px;">
+					<p class="eyebrow">Standards</p>
+					<h2>Code Quality</h2>
+				</div>
+
+				<div class="quality-grid">
+					<div class="quality-item tilt-card"><i class="fas fa-sitemap" aria-hidden="true"></i>Organized Structure</div>
+					<div class="quality-item tilt-card"><i class="fas fa-cubes" aria-hidden="true"></i>Modular Architecture</div>
+					<div class="quality-item tilt-card"><i class="fas fa-code-branch" aria-hidden="true"></i>OOP Usage</div>
+					<div class="quality-item tilt-card"><i class="fas fa-broom" aria-hidden="true"></i>Memory Leak Prevention</div>
+					<div class="quality-item tilt-card"><i class="fas fa-signal" aria-hidden="true"></i>Optimized Networking</div>
+					<div class="quality-item tilt-card"><i class="fas fa-expand-arrows-alt" aria-hidden="true"></i>Scalable Design</div>
+					<div class="quality-item tilt-card"><i class="fas fa-font" aria-hidden="true"></i>Clean Naming</div>
+					<div class="quality-item tilt-card"><i class="fas fa-wrench" aria-hidden="true"></i>Maintainable Code</div>
+				</div>
+			</section>
+
+			<section class="section page-shell" id="contact">
+				<div class="section-heading reveal">
+					<p class="eyebrow">Contact</p>
+					<h2>Let's Work Together</h2>
+					<p>Have a project in mind? Let's build something great.</p>
+				</div>
+				<div class="contact-card tilt-card reveal">
+					<button class="discord-icon copy-icon" type="button" data-copy="bikeis" aria-label="Copy Discord username">
+						<i class="fab fa-discord" aria-hidden="true"></i>
+					</button>
+					<h2>Message Me on Discord</h2>
+					<p>The faster way to reach me and talk about your project.</p>
+					<button class="button primary copy-discord" type="button" data-copy="bikeis">
+						<span class="copy-name">bikeis</span>
+						<i class="far fa-copy" aria-hidden="true"></i>
+						<span class="copy-label">Copy</span>
+					</button>
+
+					<div class="helpful">
+						<h3>Helpful To Include</h3>
+						<div class="helpful-row">
+							<span class="pill">What it does</span>
+							<span class="pill">Rough scope</span>
+							<span class="pill">Clear communication</span>
+							<span class="pill">Budget</span>
+							<span class="pill">Timeline</span>
+						</div>
+						<div class="reply-row">
+							<span><i class="far fa-clock" aria-hidden="true"></i>Replies within a few hours</span>
+							<span><b>GMT +8</b></span>
+						</div>
+					</div>
+				</div>
+			</section>
+		</main>
+
+		<div class="video-modal" id="videoModal" aria-hidden="true">
+			<div class="video-dialog" role="dialog" aria-modal="true" aria-labelledby="videoTitle">
+				<div class="video-topbar">
+					<strong id="videoTitle">Project Preview</strong>
+					<button class="button modal-close" type="button" aria-label="Close video">
+						<i class="fas fa-times" aria-hidden="true"></i>
+					</button>
+				</div>
+				<video class="modal-video" controls playsinline></video>
+			</div>
+		</div>
+
+		<footer class="site-footer">
+			<div class="page-shell">
+				<a class="footer-brand" href="#home">
+					<span class="logo-mark" aria-hidden="true"></span>
+					<span>BIKE</span>
+				</a>
+				<ul class="footer-links">
+					<li><a href="#about">About</a></li>
+					<li><a href="#works">Works</a></li>
+					<li><a href="#terms">Terms</a></li>
+					<li><a href="#services">Services</a></li>
+					<li><a href="#contact">Contact</a></li>
+				</ul>
+				<ul class="social-links">
+					<li><button class="copy-icon-button" type="button" data-copy="bikeis" aria-label="Copy Discord username"><i class="fab fa-discord" aria-hidden="true"></i></button></li>
+					<li><a href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub"><i class="fab fa-github" aria-hidden="true"></i></a></li>
+				</ul>
+				<p>&copy; 2026 BIKE. Roblox Scripter For Hire.</p>
+			</div>
+		</footer>
+
+		<script>
+			const canvas = document.getElementById("particles");
+			const context = canvas.getContext("2d");
+			let width = 0;
+			let height = 0;
+			let particles = [];
+
+			function resizeParticles() {
+				const ratio = window.devicePixelRatio || 1;
+				width = window.innerWidth;
+				height = window.innerHeight;
+				canvas.width = width * ratio;
+				canvas.height = height * ratio;
+				canvas.style.width = width + "px";
+				canvas.style.height = height + "px";
+				context.setTransform(ratio, 0, 0, ratio, 0, 0);
+
+				const count = Math.min(56, Math.max(28, Math.floor(width / 34)));
+				particles = Array.from({ length: count }, () => ({
+					x: Math.random() * width,
+					y: Math.random() * height,
+					r: Math.random() * 1.15 + 0.55,
+					vx: (Math.random() - 0.5) * 0.18,
+					vy: (Math.random() - 0.5) * 0.18,
+					alpha: 0,
+					maxAlpha: Math.random() * 0.28 + 0.16,
+					fade: Math.random() * 0.003 + 0.0014,
+					life: Math.random() * Math.PI * 2,
+					wave: Math.random() * Math.PI * 2
+				}));
+			}
+
+			function drawParticles() {
+				context.clearRect(0, 0, width, height);
+				for (const particle of particles) {
+					particle.x += particle.vx;
+					particle.y += particle.vy;
+					particle.life += particle.fade;
+					particle.wave += 0.004;
+					particle.x += Math.sin(particle.wave) * 0.065;
+					particle.y += Math.cos(particle.wave) * 0.052;
+					particle.alpha = (Math.sin(particle.life) * 0.5 + 0.5) * particle.maxAlpha;
+
+					if (particle.y > height + 10) {
+						particle.y = -10;
+						particle.x = Math.random() * width;
+					}
+
+					if (particle.x < -10) {
+						particle.x = width + 10;
+					} else if (particle.x > width + 10) {
+						particle.x = -10;
+					}
+
+					const glow = context.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.r * 16);
+					glow.addColorStop(0, `rgba(45, 226, 160, ${particle.alpha})`);
+					glow.addColorStop(1, "rgba(45, 226, 160, 0)");
+					context.fillStyle = glow;
+					context.beginPath();
+					context.arc(particle.x, particle.y, particle.r * 16, 0, Math.PI * 2);
+					context.fill();
+
+					context.fillStyle = `rgba(248, 250, 252, ${particle.alpha * 0.42})`;
+					context.beginPath();
+					context.arc(particle.x, particle.y, particle.r, 0, Math.PI * 2);
+					context.fill();
+				}
+
+				requestAnimationFrame(drawParticles);
+			}
+
+			const tiltStates = new WeakMap();
+			const activeTiltCards = new Set();
+
+			function getTiltState(target) {
+				if (!tiltStates.has(target)) {
+					tiltStates.set(target, { rx: 0, ry: 0, targetRx: 0, targetRy: 0 });
+				}
+
+				return tiltStates.get(target);
+			}
+
+			function setPointerLight(target, event) {
+				if (!target) {
+					return;
+				}
+
+				const rect = target.getBoundingClientRect();
+				const x = event.clientX - rect.left;
+				const y = event.clientY - rect.top;
+				const px = x / rect.width;
+				const py = y / rect.height;
+
+				target.style.setProperty("--mx", `${px * 100}%`);
+				target.style.setProperty("--my", `${py * 100}%`);
+
+				if (target.classList.contains("tilt-card")) {
+					const state = getTiltState(target);
+					const strength = Number(target.dataset.tiltStrength || 15);
+					state.targetRx = (0.5 - py) * strength;
+					state.targetRy = (px - 0.5) * strength;
+					activeTiltCards.add(target);
+				}
+			}
+
+			function updatePointerEffects(event) {
+				setPointerLight(event.target.closest(".button"), event);
+			}
+
+			function resetTilt(target) {
+				if (!target) {
+					return;
+				}
+
+				const state = getTiltState(target);
+				state.targetRx = 0;
+				state.targetRy = 0;
+				activeTiltCards.add(target);
+			}
+
+			document.addEventListener("pointermove", updatePointerEffects);
+
+			document.querySelectorAll(".tilt-card").forEach((card) => {
+				card.addEventListener("pointermove", (event) => setPointerLight(card, event));
+				card.addEventListener("pointerenter", (event) => setPointerLight(card, event));
+				card.addEventListener("pointerleave", () => resetTilt(card));
+			});
+
+			function animateTilt() {
+				activeTiltCards.forEach((card) => {
+					const state = getTiltState(card);
+					state.rx += (state.targetRx - state.rx) * 0.11;
+					state.ry += (state.targetRy - state.ry) * 0.11;
+					card.style.setProperty("--rx", `${state.rx.toFixed(3)}deg`);
+					card.style.setProperty("--ry", `${state.ry.toFixed(3)}deg`);
+
+					if (Math.abs(state.rx) < 0.02 && Math.abs(state.ry) < 0.02 && state.targetRx === 0 && state.targetRy === 0) {
+						state.rx = 0;
+						state.ry = 0;
+						card.style.setProperty("--rx", "0deg");
+						card.style.setProperty("--ry", "0deg");
+						activeTiltCards.delete(card);
+					}
+				});
+
+				requestAnimationFrame(animateTilt);
+			}
+
+			const videoModal = document.getElementById("videoModal");
+			const modalVideo = videoModal.querySelector(".modal-video");
+			const modalTitle = document.getElementById("videoTitle");
+			const modalClose = videoModal.querySelector(".modal-close");
+			let videoCloseTimer;
+
+			function closeVideoModal() {
+				videoModal.classList.remove("is-open");
+				videoModal.setAttribute("aria-hidden", "true");
+				modalVideo.pause();
+				window.clearTimeout(videoCloseTimer);
+				videoCloseTimer = window.setTimeout(() => {
+					if (!videoModal.classList.contains("is-open")) {
+						modalVideo.removeAttribute("src");
+						modalVideo.load();
+					}
+				}, 280);
+			}
+
+			document.querySelectorAll(".view-video").forEach((button) => {
+				button.addEventListener("click", () => {
+					window.clearTimeout(videoCloseTimer);
+					modalTitle.textContent = button.dataset.title;
+					modalVideo.poster = button.dataset.poster;
+					modalVideo.src = button.dataset.video;
+					videoModal.classList.add("is-open");
+					videoModal.setAttribute("aria-hidden", "false");
+					modalVideo.play().catch(() => {});
+				});
+			});
+
+			modalClose.addEventListener("click", closeVideoModal);
+			videoModal.addEventListener("click", (event) => {
+				if (event.target === videoModal) {
+					closeVideoModal();
+				}
+			});
+
+			document.addEventListener("keydown", (event) => {
+				if (event.key === "Escape" && videoModal.classList.contains("is-open")) {
+					closeVideoModal();
+				}
+			});
+
+			async function copyDiscordName(button) {
+				const label = button.querySelector(".copy-label");
+				const icon = button.querySelector("i");
+				const value = button.dataset.copy || "bikeis";
+				try {
+					await navigator.clipboard.writeText(value);
+					if (label) {
+						label.textContent = "Copied";
+					}
+					if (icon) {
+						icon.className = "fas fa-check";
+					}
+					button.classList.add("is-copied");
+				} catch {
+					if (label) {
+						label.textContent = value;
+					}
+					if (icon) {
+						icon.className = "fas fa-check";
+					}
+					button.classList.add("is-copied");
+				}
+
+				window.setTimeout(() => {
+					if (label) {
+						label.textContent = "Copy";
+					}
+					if (icon) {
+						icon.className = button.classList.contains("copy-discord") ? "far fa-copy" : "fab fa-discord";
+					}
+					button.classList.remove("is-copied");
+				}, 1600);
+			}
+
+			document.querySelectorAll("[data-copy]").forEach((button) => {
+				button.addEventListener("click", () => copyDiscordName(button));
+			});
+
+			const navList = document.querySelector(".nav-links");
+			const navSectionLinks = [...document.querySelectorAll(".nav-links a[href^='#']:not(.nav-hire)")];
+			const footerSectionLinks = [...document.querySelectorAll(".footer-links a[href^='#']")];
+			const sectionLinks = [...navSectionLinks, ...footerSectionLinks];
+			const sections = sectionLinks
+				.map((link) => document.querySelector(link.getAttribute("href")))
+				.filter(Boolean);
+
+			function moveNavHighlight(link) {
+				if (!navList || !link) {
+					return;
+				}
+
+				const navRect = navList.getBoundingClientRect();
+				const linkRect = link.getBoundingClientRect();
+				navList.style.setProperty("--active-left", `${linkRect.left - navRect.left}px`);
+				navList.style.setProperty("--active-top", `${linkRect.top - navRect.top}px`);
+				navList.style.setProperty("--active-width", `${linkRect.width}px`);
+				navList.style.setProperty("--active-height", `${linkRect.height}px`);
+				navList.style.setProperty("--active-opacity", "1");
+			}
+
+			function updateActiveSection() {
+				let activeId = sections[0]?.id;
+				const marker = window.scrollY + window.innerHeight * 0.35;
+
+				sections.forEach((section) => {
+					if (section.offsetTop <= marker) {
+						activeId = section.id;
+					}
+				});
+
+				sectionLinks.forEach((link) => {
+					link.classList.toggle("is-active", link.getAttribute("href") === `#${activeId}`);
+				});
+				moveNavHighlight(navSectionLinks.find((link) => link.getAttribute("href") === `#${activeId}`));
+			}
+
+			window.addEventListener("scroll", updateActiveSection, { passive: true });
+			window.addEventListener("resize", updateActiveSection);
+			updateActiveSection();
+
+			window.addEventListener("resize", resizeParticles);
+			resizeParticles();
+			drawParticles();
+			animateTilt();
+		</script>
+	</body>
+</html>

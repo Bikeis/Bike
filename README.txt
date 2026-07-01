@@ -6,7 +6,7 @@ Welcome to my portfolio! This website showcases my work, projects, and experienc
 
 Visit the portfolio here:
 
-**https://bikeis.github.io/Bike/**
+https://bikeis.github.io/Bike/
 
 ---
 

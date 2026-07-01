@@ -1,32 +1,63 @@
-Massively by HTML5 UP
-html5up.net | @ajlkn
-Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+# Bike's Portfolio Website
 
+Welcome to my portfolio! This website showcases my work, projects, and experience as a **Roblox Luau Scripter** and developer.
 
-This is Massively, a text-heavy, article-oriented design built around a huge background
-image (with a new parallax implementation I'm testing) and scroll effects (powered by
-Scrollex). A *slight* departure from all the one-pagers I've been doing lately, but one
-that fulfills a few user requests and makes use of some new techniques I've been wanting
-to try out. Enjoy it :)
+## Live Website
 
-Demo images* courtesy of Unsplash, a radtastic collection of CC0 (public domain) images
-you can use for pretty much whatever.
+Visit the portfolio here:
 
-(* = not included)
+**https://bikeis.github.io/Bike/**
 
-AJ
-aj@lkn.io | @ajlkn
+---
 
+## About
 
-Credits:
+This portfolio was built to serve as a place where I can showcase:
 
-	Demo Images:
-		Unsplash (unsplash.com)
+* Roblox scripting projects
+* Commission work
+* Technical skills
+* Development experience
+* Contact information
 
-	Icons:
-		Font Awesome (fontawesome.io)
+It is designed to be clean, responsive, and easy to navigate across desktop and mobile devices.
 
-	Other:
-		jQuery (jquery.com)
-		Scrollex (github.com/ajlkn/jquery.scrollex)
-		Responsive Tools (github.com/ajlkn/responsive-tools)
+---
+
+## Features
+
+* Modern responsive design
+* Smooth animations and transitions
+* Interactive project gallery
+* Video previews for showcased projects
+* Skills section
+* Contact section
+* Fast loading performance
+* Mobile-friendly layout
+
+---
+
+## Built With
+
+* HTML5
+* CSS3
+* JavaScript (ES6)
+* GitHub Pages
+
+---
+
+## Contact
+
+If you're interested in working together or have any questions, feel free to reach out through the contact methods listed on the portfolio website.
+
+---
+
+## License
+
+This project is intended for portfolio purposes.
+
+The source code and assets are not licensed for redistribution, commercial use, or reproduction without permission.
+
+© 2026 All Rights Reserved.
+
+You can customize the sections further if your portfolio is specifically aimed at attracting Roblox scripting clients, employers, or both.
